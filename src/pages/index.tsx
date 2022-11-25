@@ -1,12 +1,23 @@
-import { Button, Center, Text } from '@chakra-ui/react'
+import { Center } from '@chakra-ui/react'
+import { NextPage, NextPageContext } from 'next'
+import { getSession, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Auth from '../components/Auth/Auth'
-import { getSession, useSession } from 'next-auth/react'
-import { NextPage, NextPageContext } from 'next'
+import { prisma } from '../lib/prismadb'
 
-const Home: NextPage = () => {
-	const {data} = useSession()
-	console.log(data);
+interface CoffeeData {
+	coffee: {
+		id: string
+		name: string
+		imageUrl: string
+		price: string
+		qid: string
+	}
+}
+
+const Home = ({ coffee }: CoffeeData) => {
+	const { data: session } = useSession()
+	console.log('session is: ', session)
 	return (
 		<div>
 			<Head>
@@ -17,19 +28,36 @@ const Home: NextPage = () => {
 				/>
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<Center height='100vh'>
-				<Auth session={data}/>
+			<Center height="100vh">
+				{session ? (
+					session.user.admin === true ? (
+						'Here Data Input'
+					) : (
+						'You Accsess Denied'
+					)
+				) : (
+					<Auth session={session} />
+				)}
 			</Center>
 		</div>
 	)
 }
 
-
 export async function getServerSideProps(context: NextPageContext) {
 	const session = await getSession(context)
+	const coffee = prisma.coffee.findMany({
+		select: {
+			id: true,
+			name: true,
+			imageUrl: true,
+			price: true,
+			qid: true,
+		},
+	})
 	return {
 		props: {
 			session,
+			coffee: JSON.parse(JSON.stringify(coffee)),
 		},
 	}
 }

@@ -13,27 +13,19 @@ const Auth: React.FC<AuthProps> = ({ session }) => {
 	return (
 		<Center height="100vh">
 			<Stack align="center">
-				{session ? (
-					<>
-						<Text>Here is Inputs for update coffee</Text>
-					</>
-				) : (
-					<>
-						<Text fontSize="3xl">Update Coffee</Text>
-						<Button
-							onClick={() => signIn('google')}
-							leftIcon={
-								<Image
-									height="20px"
-									src="/images/googlelogo.png"
-									alt="google logo"
-								/>
-							}
-						>
-							Continium with Google
-						</Button>
-					</>
-				)}
+				<Text fontSize="3xl">Update Coffee</Text>
+				<Button
+					onClick={() => signIn('google')}
+					leftIcon={
+						<Image
+							height="20px"
+							src="/images/googlelogo.png"
+							alt="google logo"
+						/>
+					}
+				>
+					Continium with Google
+				</Button>
 			</Stack>
 		</Center>
 	)
