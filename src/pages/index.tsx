@@ -1,23 +1,15 @@
-import { Center } from '@chakra-ui/react'
+import { Box, Center } from '@chakra-ui/react'
 import { NextPage, NextPageContext } from 'next'
 import { getSession, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { useEffect } from 'react'
 import Auth from '../components/Auth/Auth'
+import ListOfCoffee from '../components/ListOfCoffee/ListOfCoffee'
 import Update from '../components/Update/Update'
 import { prisma } from '../lib/prismadb'
+import { Coffee } from '../components/ListOfCoffee/ListOfCoffee'
 
-interface CoffeeData {
-	coffee: {
-		id: string
-		name: string
-		imageUrl: string
-		price: string
-		qid: string
-	}
-}
-
-const Home = ({ coffee }: CoffeeData) => {
+const Home = ({ coffee }: Coffee) => {
 	const { data: session } = useSession()
 	useEffect(() => {
 		const setDBCoffee = async () => {
@@ -40,7 +32,10 @@ const Home = ({ coffee }: CoffeeData) => {
 			<Center height="100vh">
 				{session ? (
 					session.user.admin === true ? (
-						<Update />
+						<Box display='flex'>
+							<ListOfCoffee coffee={coffee} />
+							<Update />
+						</Box>
 					) : (
 						'You Accsess Denied'
 					)
@@ -54,7 +49,7 @@ const Home = ({ coffee }: CoffeeData) => {
 
 export async function getServerSideProps(context: NextPageContext) {
 	const session = await getSession(context)
-	const coffee = prisma.coffee.findMany({
+	const coffee = await prisma.coffee.findMany({
 		select: {
 			id: true,
 			img: true,
@@ -65,7 +60,7 @@ export async function getServerSideProps(context: NextPageContext) {
 	return {
 		props: {
 			session,
-			coffee: JSON.parse(JSON.stringify(coffee)),
+			coffee,
 		},
 	}
 }
