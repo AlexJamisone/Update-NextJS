@@ -2,7 +2,9 @@ import { Center } from '@chakra-ui/react'
 import { NextPage, NextPageContext } from 'next'
 import { getSession, useSession } from 'next-auth/react'
 import Head from 'next/head'
+import { useEffect } from 'react'
 import Auth from '../components/Auth/Auth'
+import Update from '../components/Update/Update'
 import { prisma } from '../lib/prismadb'
 
 interface CoffeeData {
@@ -17,7 +19,14 @@ interface CoffeeData {
 
 const Home = ({ coffee }: CoffeeData) => {
 	const { data: session } = useSession()
-	console.log('session is: ', session)
+	useEffect(() => {
+		const setDBCoffee = async () => {
+			fetch('http://localhost:3000/api/create/coffee', {
+				method: 'GET',
+			})
+		}
+		setDBCoffee()
+	}, [])
 	return (
 		<div>
 			<Head>
@@ -31,7 +40,7 @@ const Home = ({ coffee }: CoffeeData) => {
 			<Center height="100vh">
 				{session ? (
 					session.user.admin === true ? (
-						'Here Data Input'
+						<Update />
 					) : (
 						'You Accsess Denied'
 					)
@@ -48,10 +57,9 @@ export async function getServerSideProps(context: NextPageContext) {
 	const coffee = prisma.coffee.findMany({
 		select: {
 			id: true,
+			img: true,
 			name: true,
-			imageUrl: true,
 			price: true,
-			qid: true,
 		},
 	})
 	return {

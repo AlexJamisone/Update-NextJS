@@ -45,7 +45,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
-    admin Boolean @default(false)
+    admin         Boolean   @default(false)
 }
 
 model VerificationToken {
@@ -57,9 +57,9 @@ model VerificationToken {
 }
 
 model Coffee {
-    id       String  @id @default(cuid())
-    name String?
-    price String?
-    imageUrl String?
-    qid String?
+    id    String @id @default(cuid())
+    img   String
+    name  String
+    price String
+    qid   String?
 }
