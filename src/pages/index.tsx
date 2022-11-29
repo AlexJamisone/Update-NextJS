@@ -1,13 +1,11 @@
 import { Box, Center } from '@chakra-ui/react'
-import { NextPage, NextPageContext } from 'next'
+import { NextPageContext } from 'next'
 import { getSession, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { useEffect } from 'react'
 import Auth from '../components/Auth/Auth'
-import ListOfCoffee from '../components/ListOfCoffee/ListOfCoffee'
-import Update from '../components/Update/Update'
+import ListOfCoffee, { Coffee } from '../components/ListOfCoffee/ListOfCoffee'
 import { prisma } from '../lib/prismadb'
-import { Coffee } from '../components/ListOfCoffee/ListOfCoffee'
 
 const Home = ({ coffee }: Coffee) => {
 	const { data: session } = useSession()
@@ -32,9 +30,8 @@ const Home = ({ coffee }: Coffee) => {
 			<Center height="100vh">
 				{session ? (
 					session.user.admin === true ? (
-						<Box display='flex'>
+						<Box>
 							<ListOfCoffee coffee={coffee} />
-							<Update />
 						</Box>
 					) : (
 						'You Accsess Denied'

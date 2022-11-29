@@ -1,6 +1,8 @@
-import { Box, Center, Img, Text } from '@chakra-ui/react'
+import { Box, Button, Center, Img, Text } from '@chakra-ui/react'
 import { NextPageContext } from 'next'
 import { prisma } from '../../lib/prismadb'
+import { BiTrash } from 'react-icons/bi'
+import { AiFillEdit } from 'react-icons/ai'
 
 export interface Coffee {
 	coffee: {
@@ -13,29 +15,53 @@ export interface Coffee {
 
 const ListOfCoffee = ({ coffee }: Coffee) => {
 	return (
-		<Center
+		<Box
 			height="50vh"
 			overflowY="scroll"
-
-			display="flex"
-			flexDirection="column"
+			sx={{
+				'::-webkit-scrollbar': {
+					display: 'none',
+				},
+			}}
+			style={{ scrollbarWidth: 'none' }}
 		>
 			{coffee.map(({ id, name, img, price }) => (
 				<Box
+					p={5}
+					my={5}
+					borderRadius={50}
 					width="100%"
 					display="flex"
-					justifyContent="space-around"
-					scrollBehavior='smooth'
-					scrollMargin='0'
-					scrollPadding='0'
+					justifyContent="space-between"
+					alignItems="center"
+					bgColor='whiteAlpha.200'
+					transition='all 0.3s linear'
+					_hover={{
+						boxShadow: '0px 19px 10px -9px rgba(255, 255, 255, 0.16)',
+						transform: 'scale(0.98)'
+					}}
 					key={id}
+
 				>
 					<Img width={20} height={20} src={img} alt={name} />
-					<Text>{name}</Text>
-					<Text>{price}</Text>
+					<Text textAlign="center">{name}</Text>
+					<Box
+						ml={5}
+						display="flex"
+						justifyContent="space-between"
+						alignItems="center"
+					>
+						<Text>{price}</Text>
+						<Button mx={3} color="teal.400">
+							<AiFillEdit />
+						</Button>
+						<Button color="red.400">
+							<BiTrash />
+						</Button>
+					</Box>
 				</Box>
 			))}
-		</Center>
+		</Box>
 	)
 }
 
