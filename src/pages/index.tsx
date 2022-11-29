@@ -4,6 +4,7 @@ import { getSession, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { useEffect } from 'react'
 import Auth from '../components/Auth/Auth'
+import FormInput from '../components/FormInput/FormInput'
 import ListOfCoffee, { Coffee } from '../components/ListOfCoffee/ListOfCoffee'
 import { prisma } from '../lib/prismadb'
 
@@ -31,6 +32,7 @@ const Home = ({ coffee }: Coffee) => {
 				{session ? (
 					session.user.admin === true ? (
 						<Box>
+							<FormInput/>
 							<ListOfCoffee coffee={coffee} />
 						</Box>
 					) : (

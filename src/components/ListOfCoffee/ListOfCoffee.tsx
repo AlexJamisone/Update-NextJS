@@ -1,8 +1,6 @@
-import { Box, Button, Center, Img, Text } from '@chakra-ui/react'
-import { NextPageContext } from 'next'
-import { prisma } from '../../lib/prismadb'
-import { BiTrash } from 'react-icons/bi'
+import { Box, Button, Img, Text } from '@chakra-ui/react'
 import { AiFillEdit } from 'react-icons/ai'
+import { BiTrash } from 'react-icons/bi'
 
 export interface Coffee {
 	coffee: {
@@ -34,14 +32,14 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 					display="flex"
 					justifyContent="space-between"
 					alignItems="center"
-					bgColor='whiteAlpha.200'
-					transition='all 0.3s linear'
+					bgColor="whiteAlpha.200"
+					transition="all 0.3s linear"
 					_hover={{
-						boxShadow: '0px 19px 10px -9px rgba(255, 255, 255, 0.16)',
-						transform: 'scale(0.98)'
+						boxShadow:
+							'0px 19px 10px -9px rgba(255, 255, 255, 0.16)',
+						transform: 'scale(0.98)',
 					}}
 					key={id}
-
 				>
 					<Img width={20} height={20} src={img} alt={name} />
 					<Text textAlign="center">{name}</Text>
