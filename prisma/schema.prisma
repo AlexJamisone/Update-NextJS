@@ -62,4 +62,5 @@ model Coffee {
     name  String
     price String
     qid   String?
+    description String?
 }

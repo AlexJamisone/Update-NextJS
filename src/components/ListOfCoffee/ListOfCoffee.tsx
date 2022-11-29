@@ -9,9 +9,13 @@ export interface Coffee {
 		img: string
 		price: string
 	}[]
+	deletCoffee: {
+		deleting: (id: string) => void
+		loading: boolean
+	}
 }
 
-const ListOfCoffee = ({ coffee }: Coffee) => {
+const ListOfCoffee = ({ coffee, deletCoffee }: Coffee) => {
 	return (
 		<Box
 			height="50vh"
@@ -53,7 +57,7 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 						<Button mx={3} color="teal.400">
 							<AiFillEdit />
 						</Button>
-						<Button color="red.400">
+						<Button onClick={() => deletCoffee.deleting(id)} isLoading={deletCoffee.loading} color="red.400">
 							<BiTrash />
 						</Button>
 					</Box>

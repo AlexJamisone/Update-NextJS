@@ -1,8 +1,49 @@
-import { Box, Button, Center, FormLabel, Input } from '@chakra-ui/react'
+import { useState } from 'react'
+import { useRouter } from 'next/router'
+import {
+	Box,
+	Button,
+	Center,
+	FormLabel,
+	Input,
+	useToast,
+} from '@chakra-ui/react'
+import { Coffee } from '../ListOfCoffee/ListOfCoffee'
+import ListOfCoffee from '../ListOfCoffee/ListOfCoffee'
 
-interface FormInputProps {}
+interface FormData {
+	id: string
+	name: string
+	qid: string
+	description: string
+}
 
-const FormInput = () => {
+const FormInput = ({coffee, deletCoffee}: Coffee) => {
+	const [form, setForm] = useState<FormData>({
+		name: '',
+		qid: '',
+		description: '',
+		id: '',
+	})
+	const router = useRouter()
+	const toast = useToast()
+
+	const clearForm = () => {
+		setForm({ name: '', qid: '', description: '', id: '' })
+	}
+	const refreshData = () => {
+		router.replace(router.asPath)
+	}
+
+    const handleSubmit = (data: FormData) => {
+        try {
+            if(data.id) {
+                
+            }
+        } catch (error) {
+            
+        }
+    }
 	return (
 		<Box mb={5}>
 			<form
@@ -20,6 +61,7 @@ const FormInput = () => {
 					<Input placeholder="Put coffee Here" type="text" />
 				</Center>
 				<Button type="submit">Add</Button>
+                <ListOfCoffee coffee={coffee} deletCoffee={deletCoffee}/>
 			</form>
 		</Box>
 	)

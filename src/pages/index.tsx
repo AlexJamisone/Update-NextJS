@@ -1,15 +1,19 @@
-import { Box, Center } from '@chakra-ui/react'
+import { Box, Center, useToast } from '@chakra-ui/react'
 import { NextPageContext } from 'next'
+import { useRouter } from 'next/router'
 import { getSession, useSession } from 'next-auth/react'
 import Head from 'next/head'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Auth from '../components/Auth/Auth'
 import FormInput from '../components/FormInput/FormInput'
-import ListOfCoffee, { Coffee } from '../components/ListOfCoffee/ListOfCoffee'
+import { Coffee } from '../components/ListOfCoffee/ListOfCoffee'
 import { prisma } from '../lib/prismadb'
 
 const Home = ({ coffee }: Coffee) => {
 	const { data: session } = useSession()
+	const toast = useToast()
+	const router = useRouter()
+	const [loading, setLoading] = useState(false)
 	useEffect(() => {
 		const setDBCoffee = async () => {
 			fetch('http://localhost:3000/api/create/coffee', {
@@ -18,6 +22,42 @@ const Home = ({ coffee }: Coffee) => {
 		}
 		setDBCoffee()
 	}, [])
+
+	const refreshData = () => {
+		router.replace(router.asPath)
+	}
+
+	//CRUD OPERATION
+
+	const deletCoffee = async (id: string) => {
+		setLoading(true)
+		try {
+			fetch(`/api/delete/${id}`, {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				method: 'DELETE',
+			}).then(() => {
+				refreshData()
+				setLoading(false)
+			})
+			toast({
+				title: 'Succsess deleted Coffee',
+				status: 'success',
+				duration: 5000,
+				isClosable: true,
+			})
+			
+		} catch (error) {
+			console.log('deletCoffee funn Error :', error)
+			toast({
+				title: `Delete Coffee is not happen: ${error}`,
+				status: 'error',
+				duration: 5000,
+				isClosable: true,
+			})
+		}
+	}
 	return (
 		<div>
 			<Head>
@@ -32,8 +72,11 @@ const Home = ({ coffee }: Coffee) => {
 				{session ? (
 					session.user.admin === true ? (
 						<Box>
-							<FormInput/>
-							<ListOfCoffee coffee={coffee} />
+							<FormInput
+								coffee={coffee}
+								deletCoffee={{deleting: deletCoffee, loading}}
+
+							/>
 						</Box>
 					) : (
 						'You Accsess Denied'
