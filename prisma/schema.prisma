@@ -57,10 +57,10 @@ model VerificationToken {
 }
 
 model Coffee {
-    id    String @id @default(cuid())
-    img   String
-    name  String
-    price String
-    qid   String?
-    description String?
+    id          String  @id @default(cuid())
+    img         String
+    name        String
+    price       String
+    qid         String? @default("0")
+    description String? @default("defult")
 }
