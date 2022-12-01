@@ -9,7 +9,7 @@ export default async function handler(
 		const id = req.query.id
 		const { name, qid, description } = req.body
 		if (req.method === 'PUT') {
-			const coffee = prisma.coffee.update({
+			const coffee = await prisma.coffee.update({
 				where: {
 					id: String(id),
 				},
