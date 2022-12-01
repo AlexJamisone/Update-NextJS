@@ -10,6 +10,13 @@ export default async function handler(
 	try {
 		const apiCoffee = await getTasty()
 		const dbCoffee = await prisma.coffee.findMany()
+		const dbCoffeeID = await prisma.coffee.findMany({
+			select: {
+				id: true
+			}
+		})
+		const apiCoffeePrice = apiCoffee.forEach(coffee => coffee.price)
+		const apiCoffeeName = apiCoffee.forEach(coffee => coffee.name)
 
 		const filterDataByApi = apiCoffee.filter(
 			({ img: item1 }) =>
@@ -19,6 +26,15 @@ export default async function handler(
 		if (filterDataByApi) {
 			await prisma.coffee.createMany({
 				data: filterDataByApi,
+			})
+			await prisma.coffee.updateMany({
+				where: {
+					id: String(dbCoffeeID),
+					name: String(apiCoffeeName)
+				},
+				data: {
+					price: String(apiCoffeePrice)
+				}
 			})
 		} else {
 			return
