@@ -33,13 +33,14 @@ export interface FormData {
 
 const ListOfCoffee = ({ coffee }: Coffee) => {
 	//State
-	const [loading, setLoading] = useState(false)
 	const [form, setForm] = useState<FormData>({
 		name: '',
 		qid: '',
 		description: '',
 		id: '',
 	})
+	const [loadingEdit, setLoadingEdit] = useState(false)
+	const [loadingDelete, setloadingDelete] = useState(false)
 	const router = useRouter()
 	const toast = useToast()
 
@@ -55,8 +56,8 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 	//CRUD
 
 	const deletCoffee = async (id: string) => {
-		setLoading(true)
 		try {
+			setloadingDelete(true)
 			fetch(`/api/delete/${id}`, {
 				headers: {
 					'Content-Type': 'application/json',
@@ -64,7 +65,7 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 				method: 'DELETE',
 			}).then(() => {
 				refreshData()
-				setLoading(false)
+				setloadingDelete(false)
 			})
 			toast({
 				title: 'Succsess deleted Coffee',
@@ -85,6 +86,7 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 
 	const editCoffee = async (id: string, data: FormData) => {
 		try {
+			setLoadingEdit(true)
 			fetch(`/api/update/${id}`, {
 				body: JSON.stringify(data),
 				headers: {
@@ -94,6 +96,7 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 			}).then(() => {
 				refreshData()
 				clearForm()
+				setLoadingEdit(false)
 			})
 			toast({
 				title: 'Refrash Data are success!',
@@ -117,7 +120,9 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 			if (data.id) {
 				editCoffee(data.id, data)
 			}
-		} catch (error) {}
+		} catch (error) {
+			console.log(error)
+		}
 	}
 	return (
 		<Box mb={5}>
@@ -155,7 +160,7 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 							setForm({ ...form, qid: e.target.value })
 						}}
 					/>
-					<Button type="submit">{form.id ? 'Save ✔' : 'Add'}</Button>
+					<Button type="submit" isLoading={loadingEdit}>{form.id ? 'Save ✔' : 'Add'}</Button>
 				</Center>
 			</form>
 			<Box
@@ -216,7 +221,7 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 							</Button>
 							<Button
 								onClick={() => deletCoffee(coffee.id)}
-								isLoading={loading}
+								isLoading={loadingDelete}
 								color="red.400"
 							>
 								<BiTrash />
