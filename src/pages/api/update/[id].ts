@@ -7,7 +7,7 @@ export default async function handler(
 ) {
 	try {
 		const id = req.query.id
-		const { name, qid, description } = req.body
+		const { name, qid, description, price } = req.body
 		if (req.method === 'PUT') {
 			const coffee = await prisma.coffee.update({
 				where: {
@@ -17,6 +17,7 @@ export default async function handler(
 					name,
 					qid,
 					description,
+					price
 				},
 			})
 			res.json(coffee)

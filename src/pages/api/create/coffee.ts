@@ -10,37 +10,40 @@ export default async function handler(
 	try {
 		const apiCoffee = await getTasty()
 		const dbCoffee = await prisma.coffee.findMany()
-		const dbCoffeeID = await prisma.coffee.findMany({
-			select: {
-				id: true
-			}
-		})
-		const apiCoffeePrice = apiCoffee.forEach(coffee => coffee.price)
-		const apiCoffeeName = apiCoffee.forEach(coffee => coffee.name)
 
 		const filterDataByApi = apiCoffee.filter(
 			({ img: item1 }) =>
 				!dbCoffee.some(({ img: item2 }: Coffee) => item2 === item1)
 		)
-
-		if (filterDataByApi) {
-			await prisma.coffee.createMany({
-				data: filterDataByApi,
-			})
+		const filterDataByDbPrice = dbCoffee.filter(
+			({ price: item1 }) =>
+				!apiCoffee.some(({ price: item2 }) => item2 === item1)
+		)
+		const filterDataByApiPrice = apiCoffee.filter(
+			(coffee1) =>
+				!dbCoffee.some(
+					(coffee2) =>
+						coffee2.price === coffee1.price &&
+						coffee2.name === coffee1.name
+				)
+		)
+		await prisma.coffee.createMany({
+			data: filterDataByApi,
+		})
+		if ((filterDataByApiPrice || filterDataByDbPrice) !== undefined) {
 			await prisma.coffee.updateMany({
 				where: {
-					id: String(dbCoffeeID),
-					name: String(apiCoffeeName)
+					id: filterDataByDbPrice[0].id,
 				},
 				data: {
-					price: String(apiCoffeePrice)
-				}
+					price: filterDataByApiPrice[0].price,
+				},
 			})
 		} else {
 			return
 		}
 		res.status(200).json({ message: 'create succses!', dbCoffee })
 	} catch (error: any) {
-		throw new Error('from /api/create/coffee', error)
+		console.log(error)
 	}
 }
