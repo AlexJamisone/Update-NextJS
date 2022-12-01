@@ -128,15 +128,6 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 				}}
 			>
 				<Center flexDirection="column" gap={1} mb={5}>
-					<FormLabel>ID</FormLabel>
-					<Input
-						placeholder="HERE ID"
-						type="text"
-						value={form.id}
-						onChange={(e) => {
-							setForm({ ...form, id: e.target.value })
-						}}
-					/>
 					<FormLabel>Coffee Name</FormLabel>
 					<Input
 						placeholder="Put coffee Here"
