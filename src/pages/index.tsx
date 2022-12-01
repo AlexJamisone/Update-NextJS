@@ -11,7 +11,7 @@ const Home = ({ coffee }: Coffee) => {
 	const { data: session } = useSession()
 	useEffect(() => {
 		const setDBCoffee = async () => {
-			fetch('http://localhost:3000/api/create/coffee', {
+			await fetch('http://localhost:3000/api/create/coffee', {
 				method: 'GET',
 			})
 		}
