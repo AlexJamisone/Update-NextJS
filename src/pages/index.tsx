@@ -31,11 +31,7 @@ const Home = ({ coffee }: Coffee) => {
 				{session ? (
 					session.user.admin === true ? (
 						<Box>
-							{/* <FormInput
-								coffee={coffee}
-								deletCoffee={{deleting: deletCoffee, loading}}
-							/> */}
-							<ListOfCoffee coffee={coffee}/>
+							<ListOfCoffee coffee={coffee} />
 						</Box>
 					) : (
 						'You Accsess Denied'
@@ -57,7 +53,7 @@ export async function getServerSideProps(context: NextPageContext) {
 			name: true,
 			price: true,
 			description: true,
-			qid: true
+			qid: true,
 		},
 	})
 	return {

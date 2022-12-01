@@ -1,12 +1,9 @@
-import { useState } from 'react'
-
+import { Button, Center, Image, Stack, Text } from '@chakra-ui/react'
 import { Session } from 'next-auth'
 import { signIn } from 'next-auth/react'
-import { Button, Center, Image, Stack, Text } from '@chakra-ui/react'
 
 interface AuthProps {
 	session: Session | null
-	// reloadSession: () => void
 }
 
 const Auth: React.FC<AuthProps> = ({ session }) => {

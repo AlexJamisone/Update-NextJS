@@ -127,7 +127,7 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 					handleSubmit(form)
 				}}
 			>
-				<Center flexDirection="column" gap={1} mb={5}>
+				<Center flexDirection="column" gap={3} mb={5}>
 					<FormLabel>Coffee Name</FormLabel>
 					<Input
 						placeholder="Put coffee Here"
@@ -155,8 +155,8 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 							setForm({ ...form, qid: e.target.value })
 						}}
 					/>
+					<Button type="submit">{form.id ? 'Save ✔' : 'Add'}</Button>
 				</Center>
-				<Button type="submit">Add</Button>
 			</form>
 			<Box
 				height="50vh"

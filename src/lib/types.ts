@@ -1,5 +1,5 @@
 export interface WrapApiCoffeeData {
-    name: string
-    img: string
-    price: string
+	name: string
+	img: string
+	price: string
 }
