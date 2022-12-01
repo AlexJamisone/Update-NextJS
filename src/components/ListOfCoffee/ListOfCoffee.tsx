@@ -12,6 +12,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { AiFillEdit } from 'react-icons/ai'
 import { BiTrash } from 'react-icons/bi'
+import { motion } from 'framer-motion'
 
 export interface Coffee {
 	coffee: {
@@ -160,7 +161,9 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 							setForm({ ...form, qid: e.target.value })
 						}}
 					/>
-					<Button type="submit" isLoading={loadingEdit}>{form.id ? 'Save ✔' : 'Add'}</Button>
+					<Button type="submit" isLoading={loadingEdit}>
+						{form.id ? 'Save ✔' : 'Add'}
+					</Button>
 				</Center>
 			</form>
 			<Box
@@ -175,6 +178,9 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 			>
 				{coffee.map((coffee) => (
 					<Box
+						as={motion.div}
+						initial={{ y: '10%' }}
+						animate={{ y: '0%' }}
 						p={5}
 						my={5}
 						borderRadius={50}
