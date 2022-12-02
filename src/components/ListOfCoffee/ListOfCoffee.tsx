@@ -30,7 +30,6 @@ export interface FormData {
 	name: string
 	qid: string
 	description: string
-	price: string
 }
 
 const ListOfCoffee = ({ coffee }: Coffee) => {
@@ -40,7 +39,6 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 		qid: '',
 		description: '',
 		id: '',
-		price: ''
 	})
 	const [loadingEdit, setLoadingEdit] = useState(false)
 	const [loadingDelete, setloadingDelete] = useState(false)
@@ -50,7 +48,7 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 	//helper function
 
 	const clearForm = () => {
-		setForm({ name: '', qid: '', description: '', id: '', price: '' })
+		setForm({ name: '', qid: '', description: '', id: '' })
 	}
 	const refreshData = () => {
 		router.replace(router.asPath)
@@ -145,15 +143,6 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 							setForm({ ...form, name: e.target.value })
 						}}
 					/>
-					<FormLabel>Coffee Price</FormLabel>
-					<Input
-						placeholder="Put coffee price"
-						type="text"
-						value={form.price}
-						onChange={(e) => {
-							setForm({ ...form, price: e.target.value })
-						}}
-					/>
 					<FormLabel>Description</FormLabel>
 					<Input
 						placeholder="Put Description Here"
@@ -231,7 +220,6 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 										description: coffee.description,
 										id: coffee.id,
 										qid: coffee.qid,
-										price: coffee.price
 									})
 								}
 							>

@@ -17,7 +17,7 @@ export default async function handler(
 					name,
 					qid,
 					description,
-					price
+					price,
 				},
 			})
 			res.json(coffee)
