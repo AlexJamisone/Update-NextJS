@@ -61,6 +61,6 @@ model Coffee {
     img         String
     name        String
     price       String
-    qid         String? @default("0")
+    qid         Int? @default(0)
     description String? @default("defult")
 }
