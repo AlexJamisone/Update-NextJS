@@ -2,29 +2,12 @@ import {
 	Box,
 	Button,
 	Center,
-	FormLabel,
-	Img,
-	Input,
-	Text,
-	useToast,
+	FormLabel, Input, useToast
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { AiFillEdit } from 'react-icons/ai'
-import { BiTrash } from 'react-icons/bi'
-import { motion } from 'framer-motion'
+import Coffee, { ActionCofeePorps, CoffeeProps } from '../Coffee/Coffee'
 import SearchInput from '../SearchInput/SearchInput'
-
-export interface Coffee {
-	coffee: {
-		id: string
-		name: string
-		img: string
-		price: string
-		description: string
-		qid: number
-	}[]
-}
 
 export interface FormData {
 	id: string
@@ -33,7 +16,7 @@ export interface FormData {
 	description: string
 }
 
-const ListOfCoffee = ({ coffee }: Coffee) => {
+const Main = ({ coffee }: CoffeeProps) => {
 	//State
 	const [form, setForm] = useState<FormData>({
 		name: '',
@@ -174,91 +157,16 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 					</Button>
 				</Center>
 			</form>
-			<SearchInput setSearch={handleInputChange}/>
-			<Box
-				height="50vh"
-				overflowY="scroll"
-				sx={{
-					'::-webkit-scrollbar': {
-						display: 'none',
-					},
-				}}
-				style={{ scrollbarWidth: 'none' }}
-			>
-				{coffee
-					.filter((fiCoffee) => {
-						if (search === '') {
-							return fiCoffee
-						} else if (
-							fiCoffee.name
-								.toLowerCase()
-								.includes(search.toLowerCase())
-						) {
-							return fiCoffee
-						}
-					})
-					.map((coffee) => (
-						<Box
-							as={motion.div}
-							initial={{ y: '10%' }}
-							animate={{ y: '0%' }}
-							p={5}
-							my={5}
-							borderRadius={50}
-							width="100%"
-							display="flex"
-							justifyContent="space-between"
-							alignItems="center"
-							bgColor="whiteAlpha.200"
-							transition="all 0.3s linear"
-							_hover={{
-								boxShadow:
-									'0px 19px 10px -9px rgba(255, 255, 255, 0.16)',
-								transform: 'scale(0.98)',
-							}}
-							key={coffee.id}
-						>
-							<Img
-								width={20}
-								height={20}
-								src={coffee.img}
-								alt={coffee.name}
-							/>
-							<Text textAlign="center">{coffee.name}</Text>
-							<Box
-								ml={5}
-								display="flex"
-								justifyContent="space-between"
-								alignItems="center"
-							>
-								<Text>{coffee.price}</Text>
-								<Button
-									mx={3}
-									color="teal.400"
-									onClick={() =>
-										setForm({
-											name: coffee.name,
-											description: coffee.description,
-											id: coffee.id,
-											qid: coffee.qid,
-										})
-									}
-								>
-									<AiFillEdit />
-								</Button>
-								<Button
-									onClick={() => deletCoffee(coffee.id)}
-									isLoading={loadingDelete}
-									color="red.400"
-								>
-									<BiTrash />
-								</Button>
-							</Box>
-						</Box>
-					))}
-			</Box>
+			<SearchInput setSearch={handleInputChange} />
+			<Coffee
+				coffee={coffee}
+				loadingDelete={loadingDelete}
+				deletCoffee={deletCoffee}
+				search={search}
+				setForm={setForm}
+			/>
 		</Box>
 	)
 }
 
-export default ListOfCoffee
+export default Main

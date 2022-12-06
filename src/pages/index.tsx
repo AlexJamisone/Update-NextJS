@@ -4,10 +4,11 @@ import { getSession, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { useEffect } from 'react'
 import Auth from '../components/Auth/Auth'
-import ListOfCoffee, { Coffee } from '../components/ListOfCoffee/ListOfCoffee'
+import { CoffeeProps } from '../components/Coffee/Coffee'
+import Main from '../components/Main/Main'
 import { prisma } from '../lib/prismadb'
 
-const Home = ({ coffee }: Coffee) => {
+const Home = ({ coffee }: CoffeeProps) => {
 	const { data: session } = useSession()
 	useEffect(() => {
 		const setDBCoffee = async () => {
@@ -31,7 +32,7 @@ const Home = ({ coffee }: Coffee) => {
 				{session ? (
 					session.user.admin === true ? (
 						<Box>
-							<ListOfCoffee coffee={coffee} />
+							<Main coffee={coffee} />
 						</Box>
 					) : (
 						'You Accsess Denied'
