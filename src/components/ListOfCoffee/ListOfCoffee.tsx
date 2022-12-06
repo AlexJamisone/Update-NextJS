@@ -13,6 +13,7 @@ import { useState } from 'react'
 import { AiFillEdit } from 'react-icons/ai'
 import { BiTrash } from 'react-icons/bi'
 import { motion } from 'framer-motion'
+import SearchInput from '../SearchInput/SearchInput'
 
 export interface Coffee {
 	coffee: {
@@ -21,7 +22,7 @@ export interface Coffee {
 		img: string
 		price: string
 		description: string
-		qid: number 
+		qid: number
 	}[]
 }
 
@@ -40,6 +41,7 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 		description: '',
 		id: '',
 	})
+	const [search, setSearch] = useState('')
 	const [loadingEdit, setLoadingEdit] = useState(false)
 	const [loadingDelete, setloadingDelete] = useState(false)
 	const router = useRouter()
@@ -52,6 +54,12 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 	}
 	const refreshData = () => {
 		router.replace(router.asPath)
+	}
+
+	//Filtering Chenge
+
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearch(e.target.value)
 	}
 
 	//CRUD
@@ -166,6 +174,7 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 					</Button>
 				</Center>
 			</form>
+			<SearchInput setSearch={handleInputChange}/>
 			<Box
 				height="50vh"
 				overflowY="scroll"
@@ -176,65 +185,77 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 				}}
 				style={{ scrollbarWidth: 'none' }}
 			>
-				{coffee.map((coffee) => (
-					<Box
-						as={motion.div}
-						initial={{ y: '10%' }}
-						animate={{ y: '0%' }}
-						p={5}
-						my={5}
-						borderRadius={50}
-						width="100%"
-						display="flex"
-						justifyContent="space-between"
-						alignItems="center"
-						bgColor="whiteAlpha.200"
-						transition="all 0.3s linear"
-						_hover={{
-							boxShadow:
-								'0px 19px 10px -9px rgba(255, 255, 255, 0.16)',
-							transform: 'scale(0.98)',
-						}}
-						key={coffee.id}
-					>
-						<Img
-							width={20}
-							height={20}
-							src={coffee.img}
-							alt={coffee.name}
-						/>
-						<Text textAlign="center">{coffee.name}</Text>
+				{coffee
+					.filter((fiCoffee) => {
+						if (search === '') {
+							return fiCoffee
+						} else if (
+							fiCoffee.name
+								.toLowerCase()
+								.includes(search.toLowerCase())
+						) {
+							return fiCoffee
+						}
+					})
+					.map((coffee) => (
 						<Box
-							ml={5}
+							as={motion.div}
+							initial={{ y: '10%' }}
+							animate={{ y: '0%' }}
+							p={5}
+							my={5}
+							borderRadius={50}
+							width="100%"
 							display="flex"
 							justifyContent="space-between"
 							alignItems="center"
+							bgColor="whiteAlpha.200"
+							transition="all 0.3s linear"
+							_hover={{
+								boxShadow:
+									'0px 19px 10px -9px rgba(255, 255, 255, 0.16)',
+								transform: 'scale(0.98)',
+							}}
+							key={coffee.id}
 						>
-							<Text>{coffee.price}</Text>
-							<Button
-								mx={3}
-								color="teal.400"
-								onClick={() =>
-									setForm({
-										name: coffee.name,
-										description: coffee.description,
-										id: coffee.id,
-										qid: coffee.qid,
-									})
-								}
+							<Img
+								width={20}
+								height={20}
+								src={coffee.img}
+								alt={coffee.name}
+							/>
+							<Text textAlign="center">{coffee.name}</Text>
+							<Box
+								ml={5}
+								display="flex"
+								justifyContent="space-between"
+								alignItems="center"
 							>
-								<AiFillEdit />
-							</Button>
-							<Button
-								onClick={() => deletCoffee(coffee.id)}
-								isLoading={loadingDelete}
-								color="red.400"
-							>
-								<BiTrash />
-							</Button>
+								<Text>{coffee.price}</Text>
+								<Button
+									mx={3}
+									color="teal.400"
+									onClick={() =>
+										setForm({
+											name: coffee.name,
+											description: coffee.description,
+											id: coffee.id,
+											qid: coffee.qid,
+										})
+									}
+								>
+									<AiFillEdit />
+								</Button>
+								<Button
+									onClick={() => deletCoffee(coffee.id)}
+									isLoading={loadingDelete}
+									color="red.400"
+								>
+									<BiTrash />
+								</Button>
+							</Box>
 						</Box>
-					</Box>
-				))}
+					))}
 			</Box>
 		</Box>
 	)
