@@ -21,14 +21,14 @@ export interface Coffee {
 		img: string
 		price: string
 		description: string
-		qid: string
+		qid: number 
 	}[]
 }
 
 export interface FormData {
 	id: string
 	name: string
-	qid: string
+	qid: number
 	description: string
 }
 
@@ -36,7 +36,7 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 	//State
 	const [form, setForm] = useState<FormData>({
 		name: '',
-		qid: '',
+		qid: 0,
 		description: '',
 		id: '',
 	})
@@ -48,7 +48,7 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 	//helper function
 
 	const clearForm = () => {
-		setForm({ name: '', qid: '', description: '', id: '' })
+		setForm({ name: '', qid: 0, description: '', id: '' })
 	}
 	const refreshData = () => {
 		router.replace(router.asPath)
@@ -155,10 +155,10 @@ const ListOfCoffee = ({ coffee }: Coffee) => {
 					<FormLabel>Quickresto id</FormLabel>
 					<Input
 						placeholder="Put Quick Resto id Here"
-						type="text"
+						type="number"
 						value={form.qid}
 						onChange={(e) => {
-							setForm({ ...form, qid: e.target.value })
+							setForm({ ...form, qid: +e.target.value })
 						}}
 					/>
 					<Button type="submit" isLoading={loadingEdit}>

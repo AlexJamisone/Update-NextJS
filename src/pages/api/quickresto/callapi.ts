@@ -28,7 +28,7 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 				id,
 			}
 		})
-		console.log(filterData)
+		// console.log(filterData)
 		res.status(200).json(filterData)
 	} catch (error) {
 		console.log(error)
