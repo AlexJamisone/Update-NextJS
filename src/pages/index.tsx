@@ -4,7 +4,7 @@ import { getSession, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import { useEffect } from 'react'
 import Auth from '../components/Auth/Auth'
-import { CoffeeProps } from '../components/Coffee/Coffee'
+import { CoffeeProps } from '../components/ListOfCoffee/ListOfCoffee'
 import Main from '../components/Main/Main'
 import { prisma } from '../lib/prismadb'
 
@@ -31,9 +31,9 @@ const Home = ({ coffee }: CoffeeProps) => {
 			<Center height="100vh">
 				{session ? (
 					session.user.admin === true ? (
-						<Box>
+						<Center width='100%'>
 							<Main coffee={coffee} />
-						</Box>
+						</Center>
 					) : (
 						'You Accsess Denied'
 					)

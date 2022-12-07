@@ -1,9 +1,7 @@
-import {
-	Box, useToast
-} from '@chakra-ui/react'
+import { Box, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import Coffee, { CoffeeProps } from '../Coffee/Coffee'
+import Coffee, { CoffeeProps } from '../ListOfCoffee/ListOfCoffee'
 import FormInput from '../FormInput/FormInput'
 import SearchInput from '../SearchInput/SearchInput'
 
@@ -115,7 +113,7 @@ const Main = ({ coffee }: CoffeeProps) => {
 		}
 	}
 	return (
-		<Box mb={5}>
+		<Box m={5} minWidth='25%'>
 			<FormInput
 				form={form}
 				handleSubmit={handleSubmit}
