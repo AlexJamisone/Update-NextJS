@@ -1,12 +1,10 @@
 import {
-	Box,
-	Button,
-	Center,
-	FormLabel, Input, useToast
+	Box, useToast
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import Coffee, { ActionCofeePorps, CoffeeProps } from '../Coffee/Coffee'
+import Coffee, { CoffeeProps } from '../Coffee/Coffee'
+import FormInput from '../FormInput/FormInput'
 import SearchInput from '../SearchInput/SearchInput'
 
 export interface FormData {
@@ -118,45 +116,12 @@ const Main = ({ coffee }: CoffeeProps) => {
 	}
 	return (
 		<Box mb={5}>
-			<form
-				onSubmit={(e: React.SyntheticEvent) => {
-					e.preventDefault()
-					handleSubmit(form)
-				}}
-			>
-				<Center flexDirection="column" gap={3} mb={5}>
-					<FormLabel>Coffee Name</FormLabel>
-					<Input
-						placeholder="Put coffee Here"
-						type="text"
-						value={form.name}
-						onChange={(e) => {
-							setForm({ ...form, name: e.target.value })
-						}}
-					/>
-					<FormLabel>Description</FormLabel>
-					<Input
-						placeholder="Put Description Here"
-						type="text"
-						value={form.description}
-						onChange={(e) => {
-							setForm({ ...form, description: e.target.value })
-						}}
-					/>
-					<FormLabel>Quickresto id</FormLabel>
-					<Input
-						placeholder="Put Quick Resto id Here"
-						type="number"
-						value={form.qid}
-						onChange={(e) => {
-							setForm({ ...form, qid: +e.target.value })
-						}}
-					/>
-					<Button type="submit" isLoading={loadingEdit}>
-						{form.id ? 'Save ✔' : 'Add'}
-					</Button>
-				</Center>
-			</form>
+			<FormInput
+				form={form}
+				handleSubmit={handleSubmit}
+				setForm={setForm}
+				loadingEdit={loadingEdit}
+			/>
 			<SearchInput setSearch={handleInputChange} />
 			<Coffee
 				coffee={coffee}

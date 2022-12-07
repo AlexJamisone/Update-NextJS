@@ -23,7 +23,13 @@ export interface ActionCofeePorps {
 	deletCoffee?: (id: string) => void
 }
 
-const Coffee = ({ coffee, deletCoffee, loadingDelete, search, setForm }: CoffeeProps) => {
+const Coffee = ({
+	coffee,
+	deletCoffee,
+	loadingDelete,
+	search,
+	setForm,
+}: CoffeeProps) => {
 	return (
 		<Box
 			height="50vh"
