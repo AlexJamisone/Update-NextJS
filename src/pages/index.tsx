@@ -28,7 +28,7 @@ const Home = ({ coffee }: CoffeeProps) => {
 				/>
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<Center height="100vh">
+			<Center height="100%">
 				{session ? (
 					session.user.admin === true ? (
 						<Center width='100%'>

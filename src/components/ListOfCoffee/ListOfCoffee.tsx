@@ -97,6 +97,8 @@ const Coffee = ({
 										id: coffee.id,
 										name: coffee.name,
 										qid: coffee.qid,
+										price: coffee.price,
+										img: coffee.img,
 									})
 								}
 							>

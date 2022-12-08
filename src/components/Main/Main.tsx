@@ -8,8 +8,10 @@ import SearchInput from '../SearchInput/SearchInput'
 export interface FormData {
 	id: string
 	name: string
+	img: string
 	qid: number
 	description: string
+	price: string
 }
 
 const Main = ({ coffee }: CoffeeProps) => {
@@ -19,6 +21,8 @@ const Main = ({ coffee }: CoffeeProps) => {
 		qid: 0,
 		description: '',
 		id: '',
+		price: '',
+		img: ''
 	})
 	const [search, setSearch] = useState('')
 	const [loadingEdit, setLoadingEdit] = useState(false)
@@ -29,7 +33,7 @@ const Main = ({ coffee }: CoffeeProps) => {
 	//helper function
 
 	const clearForm = () => {
-		setForm({ name: '', qid: 0, description: '', id: '' })
+		setForm({ name: '', qid: 0, description: '', id: '', price: '', img: '' })
 	}
 	const refreshData = () => {
 		router.replace(router.asPath)
@@ -42,6 +46,36 @@ const Main = ({ coffee }: CoffeeProps) => {
 	}
 
 	//CRUD
+	const createCoffee = async (data: FormData) => {
+		try {
+			setLoadingEdit(true)
+			fetch(`/api/create/object`, {
+				body: JSON.stringify(data),
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				method: 'POST'
+			}).then(() => {
+				refreshData()
+				clearForm()
+				setLoadingEdit(false)
+			})
+			toast({
+				title: 'Succsess Create Coffee',
+				status: 'success',
+				duration: 5000,
+				isClosable: true,
+			})
+		} catch (error) {
+			console.log('some poblem with create Coffee', error);
+			toast({
+				title: `Some problem with create coffee ${error}`,
+				status: 'error',
+				duration: 5000,
+				isClosable: true
+			})
+		}
+	}
 
 	const deletCoffee = async (id: string) => {
 		try {
@@ -113,12 +147,13 @@ const Main = ({ coffee }: CoffeeProps) => {
 		}
 	}
 	return (
-		<Box m={5} minWidth='25%'>
+		<Box m={5} minWidth="25%">
 			<FormInput
 				form={form}
 				handleSubmit={handleSubmit}
 				setForm={setForm}
 				loadingEdit={loadingEdit}
+				createCoffee={createCoffee}
 			/>
 			<SearchInput setSearch={handleInputChange} />
 			<Coffee
