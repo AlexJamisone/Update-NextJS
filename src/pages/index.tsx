@@ -1,8 +1,7 @@
-import { Box, Center } from '@chakra-ui/react'
+import { Center } from '@chakra-ui/react'
 import { NextPageContext } from 'next'
 import { getSession, useSession } from 'next-auth/react'
 import Head from 'next/head'
-import { useEffect } from 'react'
 import Auth from '../components/Auth/Auth'
 import { CoffeeProps } from '../components/ListOfCoffee/ListOfCoffee'
 import Main from '../components/Main/Main'
@@ -10,14 +9,6 @@ import { prisma } from '../lib/prismadb'
 
 const Home = ({ coffee }: CoffeeProps) => {
 	const { data: session } = useSession()
-	useEffect(() => {
-		const setDBCoffee = async () => {
-			await fetch('http://localhost:3000/api/create/coffee', {
-				method: 'GET',
-			})
-		}
-		setDBCoffee()
-	}, [])
 	return (
 		<div>
 			<Head>
