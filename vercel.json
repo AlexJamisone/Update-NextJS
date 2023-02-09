@@ -1,0 +1,22 @@
+{
+	"function": [
+		{
+			"src": "api/update-task.ts",
+			"handler": "update-task",
+			"method": "GET"
+		}
+	],
+	"workflow": [
+		{
+			"name": "Update Task",
+			"on": {
+				"schedule": [
+					{
+						"cron": "0 0 */12 * *",
+						"url": "/api/update-task"
+					}
+				]
+			}
+		}
+	]
+}
