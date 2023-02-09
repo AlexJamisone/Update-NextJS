@@ -6,7 +6,7 @@
 			"method": "GET"
 		}
 	],
-	"workflow": [
+	"workflows": [
 		{
 			"name": "Update Task",
 			"on": {
