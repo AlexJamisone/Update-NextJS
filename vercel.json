@@ -1,5 +1,5 @@
 {
-	"function": [
+	"functions": [
 		{
 			"src": "api/update-task.ts",
 			"handler": "update-task",
