@@ -1,0 +1,7 @@
+{
+	"functions": {
+		"api/update-task.ts": {
+			"maxDuration": 30
+		}
+	}
+}

@@ -3,7 +3,7 @@ import { updatePrice } from '../../lib/updatePrice'
 import { verifySignature } from '@upstash/qstash/nextjs'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-	if (req.method === 'POST') {
+	if (req.method === 'GET') {
 		try {
 			await fetch(
 				'https://update-dobrocoffee.vercel.app/api/create/coffee',
