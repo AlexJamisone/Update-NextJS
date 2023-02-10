@@ -6,7 +6,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 	if (req.method === 'POST') {
 		try {
 			await fetch(
-				'https://https://update-dobrocoffee.vercel.app/api/create/coffee',
+				'https://update-dobrocoffee.vercel.app/api/create/coffee',
 				{
 					method: 'GET',
 				}
