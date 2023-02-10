@@ -5,8 +5,8 @@ import { verifySignature } from '@upstash/qstash/nextjs'
 async function handler(req: NextApiRequest, res: NextApiResponse) {
 	if (req.method === 'POST') {
 		try {
-			const response = await updatePrice()
-			res.status(200).json({ message: 'price is update ✔', response })
+			await updatePrice()
+			res.status(200).end({ message: 'price is update ✔'})
 		} catch (error) {
 			console.log(error)
 			res.json({ message: 'task faild' })
