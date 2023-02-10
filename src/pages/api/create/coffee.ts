@@ -3,7 +3,6 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { prisma } from '../../../lib/prismadb'
 import { getTasty } from '../../../lib/wrapApi'
 import Cors from 'cors'
-import { WrapApiCoffeeData } from '../../../lib/types'
 
 const cors = Cors({
 	methods: ['GET'],
