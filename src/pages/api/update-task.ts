@@ -2,12 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { updatePrice } from '../../lib/updatePrice'
 import { verifySignature } from '@upstash/qstash/nextjs'
 
-export const config = {
-	api: {
-		bodyParser: false,
-	},
-}
-
 async function handler(req: NextApiRequest, res: NextApiResponse) {
 	if (req.method === 'POST') {
 		try {
@@ -24,3 +18,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export default verifySignature(handler)
+
+export const config = {
+	api: {
+		bodyParser: false,
+	},
+}
