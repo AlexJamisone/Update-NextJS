@@ -6,7 +6,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 	if (req.method === 'POST') {
 		try {
 			await updatePrice()
-			res.status(200).end({ message: 'price is update ✔'})
+			res.status(200).end()
 		} catch (error) {
 			console.log(error)
 			res.json({ message: 'task faild' })
