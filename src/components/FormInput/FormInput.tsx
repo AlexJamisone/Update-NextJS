@@ -1,6 +1,6 @@
-import { Button, Center, FormLabel, Input } from '@chakra-ui/react'
-import React, { Dispatch, SetStateAction } from 'react'
-import { FormState, Action } from '../../reducers/FormInput.reducer'
+import { Button, FormLabel, Grid, GridItem, Input } from '@chakra-ui/react'
+import React, { Dispatch } from 'react'
+import { Action, FormState } from '../../reducers/FormInput.reducer'
 interface FormDataAction {
 	form: FormState
 	handleSubmit: (data: FormState) => void
@@ -29,13 +29,18 @@ const FormInput = ({
 		reg,
 	} = form
 	return (
-		<form
+		<Grid
+			as="form"
+			templateColumns="repeat(3, 1fr)"
+			gap={5}
+			mb={5}
+			alignItems="center"
 			onSubmit={(e: React.SyntheticEvent) => {
 				e.preventDefault()
-				handleSubmit?.(form)
+				handleSubmit(form)
 			}}
 		>
-			<Center flexDirection="column" gap={1} mb={5}>
+			<GridItem>
 				<FormLabel>Coffee Name</FormLabel>
 				<Input
 					placeholder="Put coffee Here"
@@ -45,6 +50,8 @@ const FormInput = ({
 						dispatch({ type: 'SET_NAME', payload: e.target.value })
 					}
 				/>
+			</GridItem>
+			<GridItem>
 				<FormLabel>Img</FormLabel>
 				<Input
 					placeholder="Put img string"
@@ -54,6 +61,8 @@ const FormInput = ({
 						dispatch({ type: 'SET_IMG', payload: e.target.value })
 					}
 				/>
+			</GridItem>
+			<GridItem>
 				<FormLabel>Price</FormLabel>
 				<Input
 					placeholder="Put Price of Coffee"
@@ -63,11 +72,13 @@ const FormInput = ({
 						dispatch({ type: 'SET_PRICE', payload: e.target.value })
 					}
 				/>
+			</GridItem>
+			<GridItem>
 				<FormLabel>Description</FormLabel>
 				<Input
 					placeholder="Put Description Here"
 					type="text"
-					value={description as string}
+					value={description || ''}
 					onChange={(e) =>
 						dispatch({
 							type: 'SET_DESCRIPTION',
@@ -75,11 +86,13 @@ const FormInput = ({
 						})
 					}
 				/>
+			</GridItem>
+			<GridItem>
 				<FormLabel>Quickresto id</FormLabel>
 				<Input
 					placeholder="Put Quick Resto id Here"
 					type="number"
-					value={qid as number}
+					value={qid || 0}
 					onChange={(e) =>
 						dispatch({
 							type: 'SET_QID',
@@ -87,20 +100,76 @@ const FormInput = ({
 						})
 					}
 				/>
-				{form.id ? (
-					<Button type="submit" isLoading={loadingEdit}>
+			</GridItem>
+			<GridItem>
+				<FormLabel>Q-Grade</FormLabel>
+				<Input
+					placeholder="Оценка Q"
+					type="number"
+					value={grade || 0}
+					onChange={(e) =>
+						dispatch({
+							type: 'SET_GRADE',
+							payload: e.target.valueAsNumber,
+						})
+					}
+				/>
+			</GridItem>
+			<GridItem>
+				<FormLabel>Высота</FormLabel>
+				<Input
+					placeholder="Высота"
+					value={height || ''}
+					onChange={(e) =>
+						dispatch({
+							type: 'SET_HEIGHT',
+							payload: e.target.value,
+						})
+					}
+				/>
+			</GridItem>
+			<GridItem>
+				<FormLabel>Обработка</FormLabel>
+				<Input
+					placeholder="Метод обработки"
+					value={handler || ''}
+					onChange={(e) =>
+						dispatch({
+							type: 'SET_HANDLER',
+							payload: e.target.value,
+						})
+					}
+				/>
+			</GridItem>
+			<GridItem>
+				<FormLabel>Регион</FormLabel>
+				<Input
+					placeholder="Регион произрастания"
+					value={reg || ''}
+					onChange={(e) =>
+						dispatch({
+							type: 'SET_REG',
+							payload: e.target.value,
+						})
+					}
+				/>
+			</GridItem>
+			<GridItem colStart={2}>
+				{id ? (
+					<Button type="submit" isLoading={loadingEdit} w={['100%']}>
 						Save ✔
 					</Button>
 				) : (
 					<Button
 						onClick={() => createCoffee(form)}
 						isLoading={loadingEdit}
+						w={['100%']}
 					>
 						Add
 					</Button>
 				)}
-			</Center>
-		</form>
+			</GridItem>
+		</Grid>
 	)
 }
 

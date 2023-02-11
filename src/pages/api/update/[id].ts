@@ -1,5 +1,6 @@
 import { prisma } from '../../../lib/prismadb'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { Coffee } from '@prisma/client'
 
 export default async function handler(
 	req: NextApiRequest,
@@ -7,7 +8,16 @@ export default async function handler(
 ) {
 	try {
 		const id = req.query.id
-		const { name, qid, description, price } = req.body
+		const {
+			name,
+			qid,
+			description,
+			price,
+			grade,
+			handler,
+			height,
+			reg,
+		}: Coffee = req.body
 		if (req.method === 'PUT') {
 			const coffee = await prisma.coffee.update({
 				where: {
@@ -18,6 +28,10 @@ export default async function handler(
 					qid,
 					description,
 					price,
+					grade,
+					handler,
+					height,
+					reg
 				},
 			})
 			res.json(coffee)

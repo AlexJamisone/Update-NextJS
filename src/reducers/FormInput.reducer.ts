@@ -33,6 +33,10 @@ interface SetHeightActtion {
 	type: 'SET_HEIGHT'
 	payload: string
 }
+interface SetRegionActtion {
+	type: 'SET_REG'
+	payload: string
+}
 
 interface ClearForm {
 	type: 'CLEAR'
@@ -52,6 +56,7 @@ export type Action =
 	| SetPriceActtion
 	| SetQidActtion
 	| SetImgActtion
+	| SetRegionActtion
 	| ClearForm
 	| SetFormState
 
@@ -67,7 +72,6 @@ export const initialState: FormState = {
 	reg: null,
 	id: '',
 }
-
 export const FormInputReducer = (
 	state: FormState,
 	action: Action
@@ -89,6 +93,8 @@ export const FormInputReducer = (
 			return { ...state, qid: action.payload }
 		case 'SET_IMG':
 			return { ...state, img: action.payload }
+		case 'SET_REG':
+			return { ...state, reg: action.payload }
 		case 'CLEAR':
 			return initialState
 		case 'SET_FORM':
