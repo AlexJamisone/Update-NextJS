@@ -3,11 +3,16 @@ import { NextPageContext } from 'next'
 import { getSession, useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Auth from '../components/Auth/Auth'
-import { CoffeeProps } from '../components/ListOfCoffee/ListOfCoffee'
+// import { CoffeeProps } from '../components/ListOfCoffee/ListOfCoffee'
+import { Coffee } from '@prisma/client'
 import Main from '../components/Main/Main'
 import { prisma } from '../lib/prismadb'
 
-const Home = ({ coffee }: CoffeeProps) => {
+interface HomePorps {
+	coffee: Coffee[]
+}
+
+const Home = ({coffee}: HomePorps) => {
 	const { data: session } = useSession()
 	return (
 		<div>
@@ -22,7 +27,7 @@ const Home = ({ coffee }: CoffeeProps) => {
 			<Center height="100%">
 				{session ? (
 					session.user.admin === true ? (
-						<Center width='100%'>
+						<Center width="100%">
 							<Main coffee={coffee} />
 						</Center>
 					) : (
@@ -46,6 +51,10 @@ export async function getServerSideProps(context: NextPageContext) {
 			price: true,
 			description: true,
 			qid: true,
+			grade: true,
+			handler: true,
+			height: true,
+			reg: true,
 		},
 	})
 	return {

@@ -1,22 +1,33 @@
 import { Button, Center, FormLabel, Input } from '@chakra-ui/react'
 import React, { Dispatch, SetStateAction } from 'react'
-import { FormData } from './../Main/Main'
-
+import { FormState, Action } from '../../reducers/FormInput.reducer'
 interface FormDataAction {
-	form: FormData
-	handleSubmit: (data: FormData) => void
-	createCoffee: (data: FormData) => void
-	setForm: Dispatch<SetStateAction<FormData>>
+	form: FormState
+	handleSubmit: (data: FormState) => void
+	createCoffee: (data: FormState) => void
+	dispatch: Dispatch<Action>
 	loadingEdit: boolean
 }
 
 const FormInput = ({
 	form,
 	handleSubmit,
-	setForm,
+	dispatch,
 	loadingEdit,
 	createCoffee,
 }: FormDataAction) => {
+	const {
+		description,
+		grade,
+		handler,
+		height,
+		id,
+		img,
+		name,
+		price,
+		qid,
+		reg,
+	} = form
 	return (
 		<form
 			onSubmit={(e: React.SyntheticEvent) => {
@@ -29,46 +40,52 @@ const FormInput = ({
 				<Input
 					placeholder="Put coffee Here"
 					type="text"
-					value={form?.name}
-					onChange={(e) => {
-						setForm?.({ ...form, name: e.target.value })
-					}}
+					value={name}
+					onChange={(e) =>
+						dispatch({ type: 'SET_NAME', payload: e.target.value })
+					}
 				/>
 				<FormLabel>Img</FormLabel>
 				<Input
 					placeholder="Put img string"
 					type="text"
-					value={form?.img}
-					onChange={(e) => {
-						setForm?.({ ...form, img: e.target.value })
-					}}
+					value={img}
+					onChange={(e) =>
+						dispatch({ type: 'SET_IMG', payload: e.target.value })
+					}
 				/>
 				<FormLabel>Price</FormLabel>
 				<Input
 					placeholder="Put Price of Coffee"
 					type="text"
-					value={form?.price}
-					onChange={(e) => {
-						setForm?.({ ...form, price: e.target.value })
-					}}
+					value={price}
+					onChange={(e) =>
+						dispatch({ type: 'SET_PRICE', payload: e.target.value })
+					}
 				/>
 				<FormLabel>Description</FormLabel>
 				<Input
 					placeholder="Put Description Here"
 					type="text"
-					value={form.description}
-					onChange={(e) => {
-						setForm({ ...form, description: e.target.value })
-					}}
+					value={description as string}
+					onChange={(e) =>
+						dispatch({
+							type: 'SET_DESCRIPTION',
+							payload: e.target.value,
+						})
+					}
 				/>
 				<FormLabel>Quickresto id</FormLabel>
 				<Input
 					placeholder="Put Quick Resto id Here"
 					type="number"
-					value={form.qid}
-					onChange={(e) => {
-						setForm({ ...form, qid: +e.target.value })
-					}}
+					value={qid as number}
+					onChange={(e) =>
+						dispatch({
+							type: 'SET_QID',
+							payload: e.target.valueAsNumber,
+						})
+					}
 				/>
 				{form.id ? (
 					<Button type="submit" isLoading={loadingEdit}>

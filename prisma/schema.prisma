@@ -63,4 +63,8 @@ model Coffee {
     price       String
     qid         Int?    @default(0)
     description String? @default("defult")
+    grade       Int?    @default(0)
+    reg         String?
+    handler     String?
+    height      String?
 }

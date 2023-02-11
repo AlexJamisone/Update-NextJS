@@ -1,29 +1,23 @@
 import { Box, useToast } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
-import Coffee, { CoffeeProps } from '../ListOfCoffee/ListOfCoffee'
+import { useReducer, useState } from 'react'
 import FormInput from '../FormInput/FormInput'
 import SearchInput from '../SearchInput/SearchInput'
+import { Coffee } from '@prisma/client'
+import CoffeeComponent from '../CoffeeComponent/CoffeeComponent'
+import {
+	FormInputReducer,
+	initialState,
+	FormState,
+} from '../../reducers/FormInput.reducer'
 
-export interface FormData {
-	id: string
-	name: string
-	img: string
-	qid: number
-	description: string
-	price: string
+interface MainProps {
+	coffee: Coffee[]
 }
 
-const Main = ({ coffee }: CoffeeProps) => {
-	//State
-	const [form, setForm] = useState<FormData>({
-		name: '',
-		qid: 0,
-		description: '',
-		id: '',
-		price: '',
-		img: ''
-	})
+const Main = ({ coffee }: MainProps) => {
+	const [state, dispatch] = useReducer(FormInputReducer, initialState)
+
 	const [search, setSearch] = useState('')
 	const [loadingEdit, setLoadingEdit] = useState(false)
 	const [loadingDelete, setloadingDelete] = useState(false)
@@ -31,10 +25,6 @@ const Main = ({ coffee }: CoffeeProps) => {
 	const toast = useToast()
 
 	//helper function
-
-	const clearForm = () => {
-		setForm({ name: '', qid: 0, description: '', id: '', price: '', img: '' })
-	}
 	const refreshData = () => {
 		router.replace(router.asPath)
 	}
@@ -46,18 +36,18 @@ const Main = ({ coffee }: CoffeeProps) => {
 	}
 
 	//CRUD
-	const createCoffee = async (data: FormData) => {
+	const createCoffee = async (data: FormState) => {
 		try {
 			setLoadingEdit(true)
-			fetch(`/api/create/object`, {
+			await fetch(`/api/create/object`, {
 				body: JSON.stringify(data),
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				method: 'POST'
+				method: 'POST',
 			}).then(() => {
 				refreshData()
-				clearForm()
+				dispatch({type: "CLEAR"})
 				setLoadingEdit(false)
 			})
 			toast({
@@ -67,12 +57,12 @@ const Main = ({ coffee }: CoffeeProps) => {
 				isClosable: true,
 			})
 		} catch (error) {
-			console.log('some poblem with create Coffee', error);
+			console.log('some poblem with create Coffee', error)
 			toast({
 				title: `Some problem with create coffee ${error}`,
 				status: 'error',
 				duration: 5000,
-				isClosable: true
+				isClosable: true,
 			})
 		}
 	}
@@ -106,7 +96,7 @@ const Main = ({ coffee }: CoffeeProps) => {
 		}
 	}
 
-	const editCoffee = async (id: string, data: FormData) => {
+	const editCoffee = async (id: string, data: FormState) => {
 		try {
 			setLoadingEdit(true)
 			fetch(`/api/update/${id}`, {
@@ -117,7 +107,7 @@ const Main = ({ coffee }: CoffeeProps) => {
 				method: 'PUT',
 			}).then(() => {
 				refreshData()
-				clearForm()
+				dispatch({ type: 'CLEAR' })
 				setLoadingEdit(false)
 			})
 			toast({
@@ -137,7 +127,7 @@ const Main = ({ coffee }: CoffeeProps) => {
 		}
 	}
 	// SUBMIT
-	const handleSubmit = (data: FormData) => {
+	const handleSubmit = (data: FormState) => {
 		try {
 			if (data.id) {
 				editCoffee(data.id, data)
@@ -149,19 +139,19 @@ const Main = ({ coffee }: CoffeeProps) => {
 	return (
 		<Box m={5} minWidth="25%">
 			<FormInput
-				form={form}
+				form={state}
 				handleSubmit={handleSubmit}
-				setForm={setForm}
+				dispatch={dispatch}
 				loadingEdit={loadingEdit}
 				createCoffee={createCoffee}
 			/>
 			<SearchInput setSearch={handleInputChange} />
-			<Coffee
+			<CoffeeComponent
 				coffee={coffee}
 				loadingDelete={loadingDelete}
 				deletCoffee={deletCoffee}
 				search={search}
-				setForm={setForm}
+				dispatch={dispatch}
 			/>
 		</Box>
 	)
