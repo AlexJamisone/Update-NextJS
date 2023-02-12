@@ -1,6 +1,16 @@
-import { Button, FormLabel, Grid, GridItem, Input } from '@chakra-ui/react'
+import {
+	Button,
+	FormLabel,
+	Grid,
+	GridItem,
+	Input,
+	RadioGroup,
+	Radio,
+	Stack,
+} from '@chakra-ui/react'
 import React, { Dispatch } from 'react'
 import { Action, FormState } from '../../reducers/FormInput.reducer'
+import { Acidity, Density } from '@prisma/client'
 interface FormDataAction {
 	form: FormState
 	handleSubmit: (data: FormState) => void
@@ -27,11 +37,13 @@ const FormInput = ({
 		price,
 		qid,
 		reg,
+		acidity,
+		density,
 	} = form
 	return (
 		<Grid
 			as="form"
-			templateColumns="repeat(3, 1fr)"
+			templateColumns={["repeat(2, 1fr)","repeat(3, 1fr)"]}
 			gap={5}
 			mb={5}
 			alignItems="center"
@@ -153,6 +165,39 @@ const FormInput = ({
 						})
 					}
 				/>
+			</GridItem>
+			<GridItem>
+				<FormLabel>Кислотность</FormLabel>
+				<RadioGroup
+					onChange={(value) =>
+						dispatch({ type: 'SET_ACI', payload: value as Acidity })
+					}
+					value={acidity as Acidity}
+				>
+					<Stack>
+						<Radio value="Bitter">Горький</Radio>
+						<Radio value="Neutral">Нейтральный</Radio>
+						<Radio value="Acid">Кислотный</Radio>
+					</Stack>
+				</RadioGroup>
+			</GridItem>
+			<GridItem>
+				<FormLabel>Плотность</FormLabel>
+				<RadioGroup
+					onChange={(value) =>
+						dispatch({
+							type: 'SET_DENSITY',
+							payload: value as Density,
+						})
+					}
+					value={density as Density}
+				>
+					<Stack>
+						<Radio value="Tea">Чайный</Radio>
+						<Radio value="Neutral">Нейтральный</Radio>
+						<Radio value="Dense">Плотный</Radio>
+					</Stack>
+				</RadioGroup>
 			</GridItem>
 			<GridItem colStart={2}>
 				{id ? (

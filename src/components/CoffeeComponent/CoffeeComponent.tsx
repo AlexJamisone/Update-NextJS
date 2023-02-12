@@ -1,5 +1,5 @@
-import { Box, Button, Img, Text } from '@chakra-ui/react'
-import { Dispatch, SetStateAction } from 'react'
+import { Box, IconButton, Img, Text } from '@chakra-ui/react'
+import { Dispatch } from 'react'
 import { motion } from 'framer-motion'
 import { AiFillEdit } from 'react-icons/ai'
 import { BiTrash } from 'react-icons/bi'
@@ -56,6 +56,8 @@ const CoffeeComponent = ({
 						price,
 						qid,
 						reg,
+						acidity,
+						density,
 					} = item
 					return (
 						<Box
@@ -79,16 +81,21 @@ const CoffeeComponent = ({
 							key={id}
 						>
 							<Img width={20} height={20} src={img} alt={name} />
-							<Text textAlign="center">{name}</Text>
+							<Text textAlign="center" fontSize={[12, 16]}>
+								{name}
+							</Text>
 							<Box
 								ml={5}
 								display="flex"
 								justifyContent="space-between"
 								alignItems="center"
 							>
-								<Text>{price}</Text>
-								<Button
-									mx={3}
+								<Text fontSize={[12, 16]} w={['100%']}>
+									{price}
+								</Text>
+								<IconButton
+									aria-label="edit"
+									mx={[2, 3]}
 									color="teal.400"
 									onClick={() =>
 										dispatch?.({
@@ -104,19 +111,22 @@ const CoffeeComponent = ({
 												price,
 												qid,
 												reg,
+												acidity,
+												density,
 											},
 										})
 									}
 								>
 									<AiFillEdit />
-								</Button>
-								<Button
+								</IconButton>
+								<IconButton
+									aria-label="delet"
 									onClick={() => deletCoffee?.(id)}
 									isLoading={loadingDelete}
 									color="red.400"
 								>
 									<BiTrash />
-								</Button>
+								</IconButton>
 							</Box>
 						</Box>
 					)

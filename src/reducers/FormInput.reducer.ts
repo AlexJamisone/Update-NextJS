@@ -1,4 +1,4 @@
-import { Coffee } from '@prisma/client'
+import { Coffee, Acidity, Density } from '@prisma/client'
 export interface FormState extends Coffee {}
 
 interface SetNameActtion {
@@ -37,6 +37,14 @@ interface SetRegionActtion {
 	type: 'SET_REG'
 	payload: string
 }
+interface SetAcidityActtion {
+	type: 'SET_ACI'
+	payload: Acidity
+}
+interface SetDensityActtion {
+	type: 'SET_DENSITY'
+	payload: Density
+}
 
 interface ClearForm {
 	type: 'CLEAR'
@@ -59,6 +67,8 @@ export type Action =
 	| SetRegionActtion
 	| ClearForm
 	| SetFormState
+	| SetAcidityActtion
+	| SetDensityActtion
 
 export const initialState: FormState = {
 	name: '',
@@ -71,6 +81,8 @@ export const initialState: FormState = {
 	qid: 0,
 	reg: null,
 	id: '',
+	acidity: 'Bitter' || 'Neutral' || 'Acid',
+	density: 'Tea' || 'Neutral' || 'Dense',
 }
 export const FormInputReducer = (
 	state: FormState,
@@ -95,6 +107,10 @@ export const FormInputReducer = (
 			return { ...state, img: action.payload }
 		case 'SET_REG':
 			return { ...state, reg: action.payload }
+		case 'SET_ACI':
+			return { ...state, acidity: action.payload }
+		case 'SET_DENSITY':
+			return { ...state, density: action.payload }
 		case 'CLEAR':
 			return initialState
 		case 'SET_FORM':
@@ -110,6 +126,8 @@ export const FormInputReducer = (
 				price: action.payload.price,
 				qid: action.payload.qid,
 				reg: action.payload.reg,
+				acidity: action.payload.acidity,
+				density: action.payload.density,
 			}
 		default:
 			return state

@@ -56,6 +56,18 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
+enum Acidity {
+    Bitter
+    Neutral
+    Acid
+}
+
+enum Density {
+    Tea
+    Neutral
+    Dense
+}
+
 model Coffee {
     id          String  @id @default(cuid())
     img         String  @unique
@@ -67,4 +79,6 @@ model Coffee {
     reg         String?
     handler     String?
     height      String?
+    density     Density? @default(Tea)
+    acidity     Acidity? @default(Bitter)
 }

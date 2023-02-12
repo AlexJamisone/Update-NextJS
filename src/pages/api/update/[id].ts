@@ -17,6 +17,9 @@ export default async function handler(
 			handler,
 			height,
 			reg,
+			acidity,
+			density,
+			img
 		}: Coffee = req.body
 		if (req.method === 'PUT') {
 			const coffee = await prisma.coffee.update({
@@ -31,7 +34,10 @@ export default async function handler(
 					grade,
 					handler,
 					height,
-					reg
+					reg,
+					acidity,
+					density,
+					img
 				},
 			})
 			res.json(coffee)
