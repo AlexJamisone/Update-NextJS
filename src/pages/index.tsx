@@ -56,7 +56,8 @@ export async function getServerSideProps(context: NextPageContext) {
 			height: true,
 			reg: true,
 			acidity: true,
-			density: true
+			density: true,
+			Iid: true
 		},
 	})
 	return {

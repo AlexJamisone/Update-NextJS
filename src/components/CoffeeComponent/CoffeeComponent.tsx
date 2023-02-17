@@ -58,6 +58,7 @@ const CoffeeComponent = ({
 						reg,
 						acidity,
 						density,
+						Iid
 					} = item
 					return (
 						<Box
@@ -113,6 +114,7 @@ const CoffeeComponent = ({
 												reg,
 												acidity,
 												density,
+												Iid
 											},
 										})
 									}

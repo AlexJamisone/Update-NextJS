@@ -69,16 +69,17 @@ enum Density {
 }
 
 model Coffee {
-    id          String  @id @default(cuid())
-    img         String  @unique
+    id          String   @id @default(cuid())
+    img         String   @unique
     name        String
     price       String
-    qid         Int?    @default(0)
-    description String? @default("defult")
-    grade       Int?    @default(0)
+    qid         Int?     @default(0)
+    description String?  @default("defult")
+    grade       Int?     @default(0)
     reg         String?
     handler     String?
     height      String?
+    Iid         Int?
     density     Density? @default(Tea)
     acidity     Acidity? @default(Bitter)
 }

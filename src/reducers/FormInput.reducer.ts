@@ -1,47 +1,51 @@
 import { Coffee, Acidity, Density } from '@prisma/client'
 export interface FormState extends Coffee {}
 
-interface SetNameActtion {
+interface SetNameAction {
 	type: 'SET_NAME'
 	payload: string
 }
-interface SetImgActtion {
+interface SetImgAction {
 	type: 'SET_IMG'
 	payload: string
 }
-interface SetQidActtion {
+interface SetQidAction {
 	type: 'SET_QID'
 	payload: number | null
 }
-interface SetPriceActtion {
+interface SetPriceAction {
 	type: 'SET_PRICE'
 	payload: string
 }
-interface SetDescriptionActtion {
+interface SetDescriptionAction {
 	type: 'SET_DESCRIPTION'
 	payload: string | null
 }
-interface SetGradeActtion {
+interface SetGradeAction {
 	type: 'SET_GRADE'
 	payload: number | null
 }
-interface SetHandlerActtion {
+interface SetHandlerAction {
 	type: 'SET_HANDLER'
 	payload: string | null
 }
-interface SetHeightActtion {
+interface SetHeightAction {
 	type: 'SET_HEIGHT'
 	payload: string
 }
-interface SetRegionActtion {
+interface SetRegionAction {
 	type: 'SET_REG'
 	payload: string
 }
-interface SetAcidityActtion {
+interface SetIngridientAction {
+	type: 'SET_IID'
+	payload: number | null
+}
+interface SetAcidityAction {
 	type: 'SET_ACI'
 	payload: Acidity
 }
-interface SetDensityActtion {
+interface SetDensityAction {
 	type: 'SET_DENSITY'
 	payload: Density
 }
@@ -56,19 +60,20 @@ interface SetFormState {
 }
 
 export type Action =
-	| SetNameActtion
-	| SetDescriptionActtion
-	| SetGradeActtion
-	| SetHandlerActtion
-	| SetHeightActtion
-	| SetPriceActtion
-	| SetQidActtion
-	| SetImgActtion
-	| SetRegionActtion
+	| SetNameAction
+	| SetDescriptionAction
+	| SetGradeAction
+	| SetHandlerAction
+	| SetHeightAction
+	| SetPriceAction
+	| SetQidAction
+	| SetImgAction
+	| SetRegionAction
 	| ClearForm
 	| SetFormState
-	| SetAcidityActtion
-	| SetDensityActtion
+	| SetAcidityAction
+	| SetDensityAction
+	| SetIngridientAction
 
 export const initialState: FormState = {
 	name: '',
@@ -81,6 +86,7 @@ export const initialState: FormState = {
 	qid: 0,
 	reg: null,
 	id: '',
+	Iid: null,
 	acidity: 'Bitter' || 'Neutral' || 'Acid',
 	density: 'Tea' || 'Neutral' || 'Dense',
 }
@@ -111,6 +117,8 @@ export const FormInputReducer = (
 			return { ...state, acidity: action.payload }
 		case 'SET_DENSITY':
 			return { ...state, density: action.payload }
+		case 'SET_IID':
+			return { ...state, Iid: action.payload }
 		case 'CLEAR':
 			return initialState
 		case 'SET_FORM':
@@ -128,6 +136,7 @@ export const FormInputReducer = (
 				reg: action.payload.reg,
 				acidity: action.payload.acidity,
 				density: action.payload.density,
+				Iid: action.payload.Iid,
 			}
 		default:
 			return state

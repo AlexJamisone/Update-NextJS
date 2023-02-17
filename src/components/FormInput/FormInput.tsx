@@ -39,11 +39,12 @@ const FormInput = ({
 		reg,
 		acidity,
 		density,
+		Iid,
 	} = form
 	return (
 		<Grid
 			as="form"
-			templateColumns={["repeat(2, 1fr)","repeat(3, 1fr)"]}
+			templateColumns={['repeat(2, 1fr)', 'repeat(3, 1fr)']}
 			gap={5}
 			mb={5}
 			alignItems="center"
@@ -162,6 +163,19 @@ const FormInput = ({
 						dispatch({
 							type: 'SET_REG',
 							payload: e.target.value,
+						})
+					}
+				/>
+			</GridItem>
+			<GridItem>
+				<FormLabel>Ingridient ID</FormLabel>
+				<Input
+					placeholder="Put id of Ingridient"
+					value={Iid || 0}
+					onChange={(e) =>
+						dispatch({
+							type: 'SET_IID',
+							payload: +e.target.value,
 						})
 					}
 				/>
