@@ -26,6 +26,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 	// 	res.setHeader('Allow', 'POST')
 	// 	res.status(405).end('Methood Not Allowed')
 	// }
+	//make some new trial
 	try {
 		await fetch('https://update-dobrocoffee.vercel.app/api/create/coffee', {
 			method: 'GET',
