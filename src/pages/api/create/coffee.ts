@@ -1,7 +1,8 @@
-import { Coffee } from '@prisma/client'
+import type { Coffee } from '@prisma/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { prisma } from '../../../lib/prismadb'
 import { getTasty } from '../../../lib/wrapApi'
+import { updatePrice } from '../../../lib/updatePrice'
 import Cors from 'cors'
 
 const cors = Cors({
@@ -30,8 +31,10 @@ export default async function handler(
 ) {
 	try {
 		await runMiddlewere(req, res, cors)
-		const apiCoffee = await getTasty()
-		const dbCoffee = await prisma.coffee.findMany()
+		const [apiCoffee, dbCoffee] = await Promise.all([
+			getTasty(),
+			prisma.coffee.findMany(),
+		])
 
 		const filterDataByApi = apiCoffee.filter(
 			({ img: item1 }) =>
@@ -40,18 +43,18 @@ export default async function handler(
 		await prisma.coffee.createMany({
 			data: filterDataByApi,
 		})
-		const promises = apiCoffee.map(async ({ img, price }) => {
-			const records = await prisma.coffee.update({
-				where: {
-					img: img,
-				},
-				data: {
-					price: price,
-				},
-			})
-			return records
-		})
-		await Promise.all(promises)
+		await prisma.$transaction(
+			apiCoffee.map(({ img, price }) =>
+				prisma.coffee.update({
+					where: {
+						img,
+					},
+					data: {
+						price,
+					},
+				})
+			)
+		)
 		res.status(200).json({ message: 'create succses!', dbCoffee })
 	} catch (error: any) {
 		console.log(error)

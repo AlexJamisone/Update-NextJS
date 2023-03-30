@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { updatePrice } from '../../lib/updatePrice'
+import { verifySignature } from '@upstash/qstash/nextjs'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
 	try {
@@ -13,7 +14,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 	}
 }
 
-export default handler
+export default verifySignature(handler)
 
 export const config = {
 	api: {
