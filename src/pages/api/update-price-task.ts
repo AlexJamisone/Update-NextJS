@@ -1,12 +1,9 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next'
 import { updatePrice } from '../../lib/updatePrice'
 import { verifySignature } from '@upstash/qstash/nextjs'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
 	try {
-		await fetch('https://update-dobrocoffee.vercel.app/api/create/coffee', {
-			method: 'GET',
-		})
 		await updatePrice()
 		res.status(200).end('success')
 	} catch (error) {
