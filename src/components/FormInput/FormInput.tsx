@@ -215,9 +215,22 @@ const FormInput = ({
 			</GridItem>
 			<GridItem colStart={2}>
 				{id ? (
-					<Button type="submit" isLoading={loadingEdit} w={['100%']}>
-						Save ✔
-					</Button>
+					<Stack direction={['row']}>
+						<Button
+							type="submit"
+							isLoading={loadingEdit}
+							w={['100%']}
+						>
+							Save ✔
+						</Button>
+						<Button
+							isLoading={loadingEdit}
+							w={['100%']}
+							onClick={() => dispatch({ type: 'CLEAR' })}
+						>
+							Cancel
+						</Button>
+					</Stack>
 				) : (
 					<Button
 						onClick={() => createCoffee(form)}
