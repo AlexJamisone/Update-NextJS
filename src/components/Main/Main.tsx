@@ -1,4 +1,4 @@
-import { Box, useToast } from '@chakra-ui/react'
+import { Box, Button, useToast, Stack } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useReducer, useState } from 'react'
 import FormInput from '../FormInput/FormInput'
@@ -20,6 +20,8 @@ const Main = ({ coffee }: MainProps) => {
 
 	const [search, setSearch] = useState('')
 	const [loadingEdit, setLoadingEdit] = useState(false)
+	const [loadingUpdateDb, setLoadingUpdateDb] = useState(false)
+	const [loadingPrice, setLoadingPrice] = useState(false)
 	const [loadingDelete, setloadingDelete] = useState(false)
 	const router = useRouter()
 	const toast = useToast()
@@ -47,7 +49,7 @@ const Main = ({ coffee }: MainProps) => {
 				method: 'POST',
 			}).then(() => {
 				refreshData()
-				dispatch({type: "CLEAR"})
+				dispatch({ type: 'CLEAR' })
 				setLoadingEdit(false)
 			})
 			toast({
@@ -136,6 +138,66 @@ const Main = ({ coffee }: MainProps) => {
 			console.log(error)
 		}
 	}
+	const handlDbUpdate = async () => {
+		try {
+			setLoadingUpdateDb(true)
+			const response = await fetch(
+				`${process.env.NEXT_PUBLIC_QSTASH_URL}https://update-dobrocoffee.vercel.app/api/update-db-task`,
+				{
+					method: 'POST',
+					headers: new Headers({
+						Authorization: `Bearer ${process.env.NEXT_PUBLIC_QSTASH_TOKEN}`,
+						'Content-Type': 'application/json',
+					}),
+				}
+			)
+			await response.json()
+			toast({
+				description: 'Data is update on db!🎉',
+				isClosable: true,
+				status: 'info',
+			})
+			setLoadingUpdateDb(false)
+		} catch (error) {
+			setLoadingUpdateDb(false)
+			toast({
+				description: `Error: ${error}`,
+				isClosable: true,
+				status: 'error',
+			})
+			console.log(error)
+		}
+	}
+	const handlPriceUpdate = async () => {
+		try {
+			setLoadingPrice(true)
+			const response = await fetch(
+				`${process.env.NEXT_PUBLIC_QSTASH_URL}https://update-dobrocoffee.vercel.app/api/update-price-task`,
+				{
+					method: 'POST',
+					headers: new Headers({
+						Authorization: `Bearer ${process.env.NEXT_PUBLIC_QSTASH_TOKEN}`,
+						'Content-Type': 'application/json',
+					}),
+				}
+			)
+			await response.json()
+			toast({
+				description: 'Price is sync!🎉',
+				isClosable: true,
+				status: 'info',
+			})
+			setLoadingPrice(false)
+		} catch (error) {
+			setLoadingPrice(false)
+			toast({
+				description: `Error: ${error}`,
+				isClosable: true,
+				status: 'error',
+			})
+			console.log(error)
+		}
+	}
 	return (
 		<Box m={5} minWidth="25%">
 			<FormInput
@@ -145,6 +207,20 @@ const Main = ({ coffee }: MainProps) => {
 				loadingEdit={loadingEdit}
 				createCoffee={createCoffee}
 			/>
+			<Stack mb={5}>
+				<Button
+					onClick={() => handlDbUpdate()}
+					isLoading={loadingUpdateDb}
+				>
+					Update DB Coffee
+				</Button>
+				<Button
+					onClick={() => handlPriceUpdate()}
+					isLoading={loadingPrice}
+				>
+					Update Price Coffee
+				</Button>
+			</Stack>
 			<SearchInput setSearch={handleInputChange} />
 			<CoffeeComponent
 				coffee={coffee}
